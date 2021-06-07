@@ -82,7 +82,7 @@ class EasyPS(Document):
         self._content_dir = content_dir
         
 
-class UniPSObject:
+class UniPsObject:
     def __init__(self, tex_filename=None, course_name=None, show_title=None):
         self._tex_filename = tex_filename
         self._course_name = course_name
