@@ -3,9 +3,11 @@ import os
 from pylatex import Document, Command, Package
 from pylatex.utils import NoEscape
 
+from .custom_warnings import StudentNameError
+
 class EasyPS(Document):
     def __init__(self, student_name=None, content_dir='./content'):
-        super().__init__()
+        super().__init__(lmodern=False)
         self._title = None
         self._student_name = student_name
         self._uni_ps_dict = {}
@@ -29,8 +31,12 @@ class EasyPS(Document):
             arguments='1.'))
         self.change_length(r'\parskip', '0.5em')
         
-    def make_and_add_ps(self, uni_obj, make_tex=True):
+    def make_and_add_ps(self, uni_obj, make_tex=False):
         self._make_title(uni_obj.course_name, uni_obj.show_title)
+        
+        # Create `content_dir` if it does not exists.
+        if not os.path.exists(self._content_dir):
+            os.makedirs(self._content_dir)
         
         tex_filename = uni_obj.tex_filename
         path_to_tex = f'{self._content_dir}/{tex_filename}'
@@ -42,7 +48,8 @@ class EasyPS(Document):
         
         self.append(NoEscape(r'\input{%s}' % path_to_tex))
         
-        self.generate_pdf('main', clean_tex=(not make_tex))
+        pdf_filename = 'ps_' + os.path.splitext(tex_filename)[0]
+        self.generate_pdf(pdf_filename, clean_tex=(not make_tex))
         
     def _make_title(self, course_name, is_show_title):
         if self._student_name is None:
@@ -80,7 +87,7 @@ class EasyPS(Document):
     @content_dir.setter
     def content_dir(self, content_dir):
         self._content_dir = content_dir
-        
+
 
 class UniPsObject:
     def __init__(self, tex_filename=None, course_name=None, show_title=None):
@@ -99,7 +106,3 @@ class UniPsObject:
     @property
     def show_title(self):
         return self._show_title
-
-
-class StudentNameError(Exception):
-    pass

@@ -1,0 +1,2 @@
+class StudentNameError(Exception):
+    pass
