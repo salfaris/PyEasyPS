@@ -8,10 +8,9 @@ from .custom_warnings import StudentNameError
 class EasyPS(Document):
     def __init__(self, student_name=None, content_dir='./content'):
         super().__init__(lmodern=False)
-        self._title = None
         self._student_name = student_name
-        self._uni_ps_dict = {}
         self._content_dir = content_dir
+        self._uni_ps_dict = {}
 
         # Document class settings
         self.documentclass = Command(
