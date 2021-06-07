@@ -10,7 +10,6 @@ class EasyPS(Document):
         super().__init__(lmodern=False)
         self._student_name = student_name
         self._content_dir = content_dir
-        self._uni_ps_dict = {}
 
         # Document class settings
         self.documentclass = Command(
