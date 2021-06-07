@@ -1,21 +1,31 @@
-from easyps import EasyPS
+from pyeasyps.pyeasyps import EasyPS, UniPsObject
 
-ps = EasyPS()
-ps.student_name = 'Sal Faris'
+doc = EasyPS(content_dir='./content')
+doc.student_name = 'Salman Faris'
 
-oxford = {
-    'tex_filename': 'oxford.tex',
-    'course_name': 'MSc Advanced Computer Science',
-    'show_title': False,
-}
+oxford = UniPsObject(
+    tex_filename='oxford.tex',
+    course_name='MSc Advanced Computer Science', 
+    show_title=False)
 
-imperial = {
-    'tex_filename': 'imperial.tex',
-    'course_name': 'MSc Computing Science',
-    'show_title': True,
-}
+imperial = UniPsObject(
+    tex_filename='imperial.tex',
+    course_name='MSc Computing Science', 
+    show_title=True)
 
-ps.add_ps(oxford, imperial)
+ucl = UniPsObject(
+    tex_filename='ucl.tex',
+    course_name='MSc Computer Science', 
+    show_title=True)
 
-tex_name = 'imperial.tex'
-ps.make_ps(for_tex_filename=tex_name)
+warwick = UniPsObject(
+    tex_filename='warwick4500.tex',
+    course_name='MSc Computer Science', 
+    show_title=True)
+
+kcl = UniPsObject(
+    tex_filename='kings4000.tex',
+    course_name='MSc Advanced Computing', 
+    show_title=False)
+
+doc.make_and_add_ps(imperial)
