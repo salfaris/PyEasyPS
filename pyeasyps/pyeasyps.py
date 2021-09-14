@@ -18,7 +18,7 @@ class EasyPS:
         if not isinstance(make_tex, bool):
             raise ValueError("Expect 'make_tex' to be bool.")
         doc = EasyPsDocument(self._student_name, self._content_dir)
-        doc.make_and_generate_ps(uni_obj, make_tex)
+        doc.generate_ps(uni_obj, make_tex)
     
     @property
     def student_name(self):
@@ -41,26 +41,9 @@ class EasyPsDocument(Document):
         super().__init__(lmodern=False)
         self._student_name = student_name
         self._content_dir = content_dir
-
-        # Document class settings
-        self.documentclass = Command(
-            'documentclass',
-            options=['12pt'],
-            arguments=['article'])
-
-        # Required packages
-        self.preamble.append(Package('lipsum'))
-        self.preamble.append(Package('mathptmx'))
-        self.preamble.append(Package('geometry'))
-
-        # Layout settings
-        self.preamble.append(Command('geometry',
-            arguments='a4paper, margin=1in'))
-        self.preamble.append(Command('linespread',
-            arguments='1.'))
-        self.change_length(r'\parskip', '0.5em')
-        
-    def make_and_generate_ps(self, uni_obj, make_tex=False):
+    
+    def generate_ps(self, uni_obj, make_tex=False):
+        self._make_preamble()
         self._make_title(uni_obj.course_name, uni_obj.show_title)
         
         if not isinstance(make_tex, bool):
@@ -82,7 +65,26 @@ class EasyPsDocument(Document):
         
         pdf_filename = 'ps_' + os.path.splitext(tex_filename)[0]
         self.generate_pdf(pdf_filename, clean_tex=(not make_tex))
-        
+    
+    def _make_preamble(self):
+        # Document class settings
+        self.documentclass = Command(
+            'documentclass',
+            options=['12pt'],
+            arguments=['article'])
+
+        # Required packages
+        self.preamble.append(Package('lipsum'))
+        self.preamble.append(Package('mathptmx'))
+        self.preamble.append(Package('geometry'))
+
+        # Layout settings
+        self.preamble.append(Command('geometry',
+            arguments='a4paper, margin=1in'))
+        self.preamble.append(Command('linespread',
+            arguments='1.'))
+        self.change_length(r'\parskip', '0.5em')
+           
     def _make_title(self, course_name, is_show_title):
         """Writes title for the EasyPS document."""
         if self._student_name is None:
