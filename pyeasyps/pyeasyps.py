@@ -29,15 +29,18 @@ class EasyPS(Document):
             arguments='1.'))
         self.change_length(r'\parskip', '0.5em')
         
-    def make_and_add_ps(self, uni_obj, make_tex=False):
+    def make_and_generate_ps(self, uni_obj, make_tex=False):
         self._make_title(uni_obj.course_name, uni_obj.show_title)
+        
+        if not isinstance(make_tex, bool):
+            raise ValueError("Expect 'make_tex' to be bool.")
         
         # Create `content_dir` if it does not exists.
         if not os.path.exists(self._content_dir):
             os.makedirs(self._content_dir)
         
         tex_filename = uni_obj.tex_filename
-        path_to_tex = f'{self._content_dir}/{tex_filename}'
+        path_to_tex = f"{self._content_dir}/{tex_filename}"
 
         if tex_filename not in os.listdir(self._content_dir):
             err_msg = (f"Cannot find TeX file '{tex_filename}' in " 

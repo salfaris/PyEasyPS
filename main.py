@@ -13,19 +13,5 @@ imperial = UniPsObject(
     course_name='MSc Computing Science', 
     show_title=True)
 
-ucl = UniPsObject(
-    tex_filename='ucl.tex',
-    course_name='MSc Computer Science', 
-    show_title=True)
-
-warwick = UniPsObject(
-    tex_filename='warwick4500.tex',
-    course_name='MSc Computer Science', 
-    show_title=True)
-
-kcl = UniPsObject(
-    tex_filename='kings4000.tex',
-    course_name='MSc Advanced Computing', 
-    show_title=False)
-
-doc.make_and_add_ps(imperial)
+# doc.make_and_generate_ps(imperial)
+doc.make_and_generate_ps(oxford)
