@@ -1,7 +1,7 @@
 from pyeasyps.pyeasyps import EasyPS, UniPsObject
 
-doc = EasyPS(content_dir='./content')
-doc.student_name = 'Salman Faris'
+ps = EasyPS(content_dir='./content')
+ps.student_name = 'Salman Faris'
 
 oxford = UniPsObject(
     tex_filename='oxford.tex',
@@ -13,5 +13,4 @@ imperial = UniPsObject(
     course_name='MSc Computing Science', 
     show_title=True)
 
-# doc.make_and_generate_ps(imperial)
-doc.make_and_generate_ps(oxford)
+ps.generate_ps_no_tex(oxford, imperial)

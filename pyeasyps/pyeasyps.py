@@ -5,8 +5,39 @@ from pylatex.utils import NoEscape
 
 from .custom_warnings import StudentNameError
 
-class EasyPS(Document):
-    def __init__(self, student_name=None, content_dir='./content'):
+class EasyPS:
+    def __init__(self, student_name=None, content_dir="./content"):
+        self._student_name = student_name
+        self._content_dir = content_dir
+    
+    def generate_ps_no_tex(self, *uni_obj):
+        for obj in uni_obj:
+            self.generate_ps_for_uni_object(obj, make_tex=False)
+    
+    def generate_ps_for_uni_object(self, uni_obj, make_tex=False):
+        if not isinstance(make_tex, bool):
+            raise ValueError("Expect 'make_tex' to be bool.")
+        doc = EasyPsDocument(self._student_name, self._content_dir)
+        doc.make_and_generate_ps(uni_obj, make_tex)
+    
+    @property
+    def student_name(self):
+        return self._student_name
+
+    @student_name.setter
+    def student_name(self, student_name):
+        self._student_name = student_name
+        
+    @property
+    def content_dir(self):
+        return self._content_dir
+    
+    @content_dir.setter
+    def content_dir(self, content_dir):
+        self._content_dir = content_dir
+
+class EasyPsDocument(Document):
+    def __init__(self, student_name, content_dir):
         super().__init__(lmodern=False)
         self._student_name = student_name
         self._content_dir = content_dir
@@ -53,6 +84,7 @@ class EasyPS(Document):
         self.generate_pdf(pdf_filename, clean_tex=(not make_tex))
         
     def _make_title(self, course_name, is_show_title):
+        """Writes title for the EasyPS document."""
         if self._student_name is None:
             raise StudentNameError("Expect student name to be not None.")
         if not is_show_title:
@@ -72,22 +104,6 @@ class EasyPS(Document):
             \end{center}
             """ % title_text)
         self.append(NoEscape(title_display_text))
-        
-    @property
-    def student_name(self):
-        return self._student_name
-
-    @student_name.setter
-    def student_name(self, student_name):
-        self._student_name = student_name
-        
-    @property
-    def content_dir(self):
-        return self._content_dir
-    
-    @content_dir.setter
-    def content_dir(self, content_dir):
-        self._content_dir = content_dir
 
 
 class UniPsObject:
