@@ -10,15 +10,15 @@ class EasyPS:
         self._student_name = student_name
         self._content_dir = content_dir
     
-    def generate_ps_no_tex(self, *uni_obj):
+    def generate_ps(self, *uni_obj):
         for obj in uni_obj:
-            self.generate_ps_for_uni_object(obj, make_tex=False)
+            self.generate_ps_for_uni_obj(obj, make_tex=False)
     
-    def generate_ps_for_uni_object(self, uni_obj, make_tex=False):
+    def generate_ps_for_uni_obj(self, uni_obj, make_tex=False):
         if not isinstance(make_tex, bool):
             raise ValueError("Expect 'make_tex' to be bool.")
         doc = EasyPsDocument(self._student_name, self._content_dir)
-        doc.generate_ps(uni_obj, make_tex)
+        doc.generate_ps_for_uni_obj(uni_obj, make_tex)
     
     @property
     def student_name(self):
@@ -42,7 +42,7 @@ class EasyPsDocument(Document):
         self._student_name = student_name
         self._content_dir = content_dir
     
-    def generate_ps(self, uni_obj, make_tex=False):
+    def generate_ps_for_uni_obj(self, uni_obj, make_tex=False):
         self._make_preamble()
         self._make_title(uni_obj.course_name, uni_obj.show_title)
         

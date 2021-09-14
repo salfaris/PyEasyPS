@@ -13,4 +13,4 @@ imperial = UniPsObject(
     course_name='MSc Computing Science', 
     show_title=True)
 
-ps.generate_ps_no_tex(oxford, imperial)
+ps.generate_ps(oxford, imperial)
