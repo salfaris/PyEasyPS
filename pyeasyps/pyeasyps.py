@@ -39,10 +39,14 @@ class EasyPS:
         self._student_name = student_name
         self._content_dir = content_dir
     
-    def generate_ps(self, uni_obj: Union[University, list[University]]):
+    def generate_ps(
+        self,
+        uni_obj: Union[University, list[University]],
+        make_tex: bool = False
+    ):
         if not isinstance(uni_obj, list): uni_obj = [uni_obj]
         for obj in uni_obj:
-            self.generate_ps_for_university(obj, make_tex=False)
+            self.generate_ps_for_university(obj, make_tex=make_tex)
     
     def generate_ps_for_university(
         self, 
