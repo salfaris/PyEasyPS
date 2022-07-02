@@ -5,3 +5,8 @@
 PyEasyPS then provide a high-level Python API to use EasyPS.
 
 ![Screenshot](https://github.com/salfaris/EasyPS/blob/main/docs/example.png)
+
+## Requirements
+
+- Python 3.9+
+- pylatex 1.4.1
