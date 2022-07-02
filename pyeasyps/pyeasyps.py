@@ -1,20 +1,53 @@
 import os
+from typing import Optional
 
 from pylatex import Document, Command, Package
 from pylatex.utils import NoEscape
 
 from .custom_warnings import StudentNameError
 
+class University:
+    def __init__(
+        self, 
+        tex_filename: str, 
+        course_name: str, 
+        show_title: Optional[bool] = True,
+    ):
+        self._tex_filename = tex_filename
+        self._course_name = course_name
+        self._show_title = show_title
+        
+    @property
+    def tex_filename(self):
+        return self._tex_filename
+    
+    @property
+    def course_name(self):
+        return self._course_name
+    
+    @property
+    def show_title(self):
+        return self._show_title
+
+
 class EasyPS:
-    def __init__(self, student_name=None, content_dir="./content"):
+    def __init__(
+        self, 
+        student_name: Optional[str] = None, 
+        content_dir: str = "./content",
+    ):
         self._student_name = student_name
         self._content_dir = content_dir
     
-    def generate_ps(self, *uni_obj):
+    def generate_ps(self, *uni_obj: type[University]):
         for obj in uni_obj:
             self.generate_ps_for_university(obj, make_tex=False)
     
-    def generate_ps_for_university(self, uni_obj, make_tex=False):
+    def generate_ps_for_university(
+        self, 
+        uni_obj: type[University], 
+        make_tex: bool = False
+    ):
         if not isinstance(make_tex, bool):
             raise ValueError("Expect 'make_tex' to be bool.")
         doc = EasyPSDocument(self._student_name, self._content_dir)
@@ -25,7 +58,7 @@ class EasyPS:
         return self._student_name
 
     @student_name.setter
-    def student_name(self, student_name):
+    def student_name(self, student_name: Optional[str]):
         self._student_name = student_name
         
     @property
@@ -33,16 +66,20 @@ class EasyPS:
         return self._content_dir
     
     @content_dir.setter
-    def content_dir(self, content_dir):
+    def content_dir(self, content_dir: str):
         self._content_dir = content_dir
 
 class EasyPSDocument(Document):
-    def __init__(self, student_name, content_dir):
+    def __init__(self, student_name: Optional[str], content_dir: str):
         super().__init__(lmodern=False)
         self._student_name = student_name
         self._content_dir = content_dir
     
-    def generate_ps_for_university(self, uni_obj, make_tex=False):
+    def generate_ps_for_university(
+        self,
+        uni_obj: type[University],
+        make_tex: bool = False
+    ) -> None:
         self._make_preamble()
         self._make_title(uni_obj.course_name, uni_obj.show_title)
         
@@ -85,7 +122,7 @@ class EasyPSDocument(Document):
             arguments='1.'))
         self.change_length(r'\parskip', '0.5em')
            
-    def _make_title(self, course_name, is_show_title):
+    def _make_title(self, course_name: str, is_show_title: bool):
         """Writes title for the EasyPS document."""
         if self._student_name is None:
             raise StudentNameError("Expect student name to be not None.")
@@ -106,22 +143,3 @@ class EasyPSDocument(Document):
             \end{center}
             """ % title_text)
         self.append(NoEscape(title_display_text))
-
-
-class University:
-    def __init__(self, tex_filename=None, course_name=None, show_title=None):
-        self._tex_filename = tex_filename
-        self._course_name = course_name
-        self._show_title = show_title
-        
-    @property
-    def tex_filename(self):
-        return self._tex_filename
-    
-    @property
-    def course_name(self):
-        return self._course_name
-    
-    @property
-    def show_title(self):
-        return self._show_title
