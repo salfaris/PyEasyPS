@@ -1,14 +1,14 @@
-from pyeasyps.pyeasyps import EasyPS, UniPsObject
+from pyeasyps.pyeasyps import EasyPS, University
 
 ps = EasyPS(content_dir='./content')
 ps.student_name = 'Salman Faris'
 
-oxford = UniPsObject(
+oxford = University(
     tex_filename='oxford.tex',
     course_name='MSc Advanced Computer Science', 
     show_title=False)
 
-imperial = UniPsObject(
+imperial = University(
     tex_filename='imperial.tex',
     course_name='MSc Computing Science', 
     show_title=True)

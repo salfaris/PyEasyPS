@@ -12,13 +12,13 @@ class EasyPS:
     
     def generate_ps(self, *uni_obj):
         for obj in uni_obj:
-            self.generate_ps_for_uni_obj(obj, make_tex=False)
+            self.generate_ps_for_university(obj, make_tex=False)
     
-    def generate_ps_for_uni_obj(self, uni_obj, make_tex=False):
+    def generate_ps_for_university(self, uni_obj, make_tex=False):
         if not isinstance(make_tex, bool):
             raise ValueError("Expect 'make_tex' to be bool.")
-        doc = EasyPsDocument(self._student_name, self._content_dir)
-        doc.generate_ps_for_uni_obj(uni_obj, make_tex)
+        doc = EasyPSDocument(self._student_name, self._content_dir)
+        doc.generate_ps_for_university(uni_obj, make_tex)
     
     @property
     def student_name(self):
@@ -36,13 +36,13 @@ class EasyPS:
     def content_dir(self, content_dir):
         self._content_dir = content_dir
 
-class EasyPsDocument(Document):
+class EasyPSDocument(Document):
     def __init__(self, student_name, content_dir):
         super().__init__(lmodern=False)
         self._student_name = student_name
         self._content_dir = content_dir
     
-    def generate_ps_for_uni_obj(self, uni_obj, make_tex=False):
+    def generate_ps_for_university(self, uni_obj, make_tex=False):
         self._make_preamble()
         self._make_title(uni_obj.course_name, uni_obj.show_title)
         
@@ -108,7 +108,7 @@ class EasyPsDocument(Document):
         self.append(NoEscape(title_display_text))
 
 
-class UniPsObject:
+class University:
     def __init__(self, tex_filename=None, course_name=None, show_title=None):
         self._tex_filename = tex_filename
         self._course_name = course_name
