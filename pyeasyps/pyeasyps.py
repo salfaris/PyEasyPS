@@ -1,5 +1,5 @@
 import os
-from typing import Optional
+from typing import Optional, Union
 
 from pylatex import Document, Command, Package
 from pylatex.utils import NoEscape
@@ -39,7 +39,8 @@ class EasyPS:
         self._student_name = student_name
         self._content_dir = content_dir
     
-    def generate_ps(self, *uni_obj: type[University]):
+    def generate_ps(self, uni_obj: Union[University, list[University]]):
+        if not isinstance(uni_obj, list): uni_obj = [uni_obj]
         for obj in uni_obj:
             self.generate_ps_for_university(obj, make_tex=False)
     
